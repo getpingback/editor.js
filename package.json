@@ -1,7 +1,7 @@
 {
-  "name": "@editorjs/editorjs",
+  "name": "@getpingback/editorjs",
   "version": "2.18.0",
-  "description": "Editor.js — Native JS, based on API and Open Source",
+  "description": "Pingback Editor.js — Private version of Editor.js",
   "main": "dist/editor.js",
   "types": "./types/index.d.ts",
   "keywords": [
@@ -28,7 +28,7 @@
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/codex-team/editor.js.git"
+    "url": "git+https://github.com/getpingback/editor.js"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",
@@ -69,12 +69,11 @@
     "webpack": "^4.43.0",
     "webpack-cli": "^3.3.11"
   },
-  "collective": {
-    "type": "opencollective",
-    "url": "https://opencollective.com/editorjs"
-  },
   "dependencies": {
     "codex-notifier": "^1.1.2",
     "codex-tooltip": "^1.0.1"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
   }
 }
