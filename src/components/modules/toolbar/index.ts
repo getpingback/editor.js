@@ -130,8 +130,8 @@ export default class Toolbar extends Module {
      * Already starts opened on click
      */
     this.Editor.Toolbox.make();
-    this.Editor.Listeners.on(this.Editor.UI.nodes.redactor, 'click', () => this.plusButtonClicked(), false);
-
+    this.Editor.Toolbox.open();
+    
     /**
      * Add events to show/hide tooltip for plus button
      */
@@ -191,7 +191,7 @@ export default class Toolbar extends Module {
   public move(forceClose = true): void {
     if (forceClose) {
       /** Close Toolbox when we move toolbar */
-      this.Editor.Toolbox.close();
+      // this.Editor.Toolbox.close();
       this.Editor.BlockSettings.close();
     }
 
@@ -267,7 +267,7 @@ export default class Toolbar extends Module {
 
     /** Close components */
     this.blockActions.hide();
-    this.Editor.Toolbox.close();
+    //this.Editor.Toolbox.close();
     this.Editor.BlockSettings.close();
   }
 
@@ -302,13 +302,6 @@ export default class Toolbar extends Module {
         this.nodes.actions.classList.add(this.CSS.actionsOpened);
       },
     };
-  }
-
-  /**
-   * Handler for Plus Button
-   */
-  private plusButtonClicked(): void {
-    this.Editor.Toolbox.toggle();
   }
 
   /**

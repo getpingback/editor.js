@@ -456,7 +456,7 @@ export default class UI extends Module {
     this.Editor.BlockSelection.clearSelection(event);
 
     if (this.Editor.Toolbox.opened) {
-      this.Editor.Toolbox.close();
+      // this.Editor.Toolbox.close();
     } else if (this.Editor.BlockSettings.opened) {
       this.Editor.BlockSettings.close();
     } else if (this.Editor.ConversionToolbar.opened) {
