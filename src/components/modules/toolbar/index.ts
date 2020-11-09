@@ -126,7 +126,11 @@ export default class Toolbar extends Module {
     $.append(this.nodes.plusButton, $.svg('plus', 14, 14));
     $.append(this.nodes.content, this.nodes.plusButton);
 
-    this.Editor.Listeners.on(this.nodes.plusButton, 'click', () => this.plusButtonClicked(), false);
+    /**
+     * Already starts opened on click
+     */
+    this.Editor.Toolbox.make();
+    this.Editor.Listeners.on(this.Editor.UI.nodes.redactor, 'click', () => this.plusButtonClicked(), false);
 
     /**
      * Add events to show/hide tooltip for plus button
@@ -139,11 +143,6 @@ export default class Toolbar extends Module {
     }));
 
     this.Editor.Tooltip.onHover(this.nodes.plusButton, tooltipContent);
-
-    /**
-     * Make a Toolbox
-     */
-    this.Editor.Toolbox.make();
 
     /**
      * Fill Actions Zone:
@@ -217,7 +216,7 @@ export default class Toolbar extends Module {
       const contentOffset = Math.floor(blockHeight / 2);
 
       this.nodes.plusButton.style.transform = `translate3d(0, calc(${contentOffset}px - 50%), 0)`;
-      this.Editor.Toolbox.nodes.toolbox.style.transform = `translate3d(0, calc(${contentOffset}px - 50%), 0)`;
+      //this.Editor.Toolbox.nodes.toolbox.style.transform = `translate3d(0, calc(${contentOffset}px - 50%), 0)`;
     } else {
       toolbarY += blockHeight;
     }

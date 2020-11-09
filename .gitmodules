@@ -49,3 +49,54 @@
 [submodule "example/tools/underline"]
 	path = example/tools/underline
 	url = https://github.com/editor-js/underline
+[submodule "editorjs/example/tools/inline-code"]
+	path = editorjs/example/tools/inline-code
+	url = https://github.com/editor-js/inline-code
+[submodule "editorjs/example/tools/header"]
+	path = editorjs/example/tools/header
+	url = https://github.com/editor-js/header
+[submodule "editorjs/example/tools/delimiter"]
+	path = editorjs/example/tools/delimiter
+	url = https://github.com/editor-js/delimiter
+[submodule "editorjs/example/tools/list"]
+	path = editorjs/example/tools/list
+	url = https://github.com/editor-js/list
+[submodule "editorjs/example/tools/quote"]
+	path = editorjs/example/tools/quote
+	url = https://github.com/editor-js/quote
+[submodule "editorjs/example/tools/simple-image"]
+	path = editorjs/example/tools/simple-image
+	url = https://github.com/editor-js/simple-image
+[submodule "editorjs/src/components/tools/paragraph"]
+	path = editorjs/src/components/tools/paragraph
+	url = https://github.com/editor-js/paragraph
+[submodule "editorjs/example/tools/marker"]
+	path = editorjs/example/tools/marker
+	url = https://github.com/editor-js/marker
+[submodule "editorjs/example/tools/code"]
+	path = editorjs/example/tools/code
+	url = https://github.com/editor-js/code
+[submodule "editorjs/example/tools/image"]
+	path = editorjs/example/tools/image
+	url = https://github.com/editor-js/image
+[submodule "editorjs/example/tools/embed"]
+	path = editorjs/example/tools/embed
+	url = https://github.com/editor-js/embed
+[submodule "editorjs/example/tools/table"]
+	path = editorjs/example/tools/table
+	url = https://github.com/editor-js/table
+[submodule "editorjs/example/tools/checklist"]
+	path = editorjs/example/tools/checklist
+	url = https://github.com/editor-js/checklist
+[submodule "editorjs/example/tools/link"]
+	path = editorjs/example/tools/link
+	url = https://github.com/editor-js/link
+[submodule "editorjs/example/tools/raw"]
+	path = editorjs/example/tools/raw
+	url = https://github.com/editor-js/raw
+[submodule "editorjs/example/tools/warning"]
+	path = editorjs/example/tools/warning
+	url = https://github.com/editor-js/warning
+[submodule "editorjs/example/tools/underline"]
+	path = editorjs/example/tools/underline
+	url = https://github.com/editor-js/underline

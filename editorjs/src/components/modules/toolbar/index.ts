@@ -258,12 +258,14 @@ export default class Toolbar extends Module<ToolbarNodes> {
      *  - Toolbox
      */
     this.nodes.plusButton = $.make('div', this.CSS.plusButton);
-    $.append(this.nodes.plusButton, $.svg('plus', 14, 14));
+    $.append(this.nodes.plusButton, $.svg('plus', 35, 35));
     $.append(this.nodes.content, this.nodes.plusButton);
 
-    this.readOnlyMutableListeners.on(this.nodes.plusButton, 'click', () => {
+    this.Editor.Toolbox.toggle();
+
+    /*his.readOnlyMutableListeners.on(this.nodes.plusButton, 'click', () => {
       this.plusButtonClicked();
-    }, false);
+    }, false);*/
 
     /**
      * Add events to show/hide tooltip for plus button
