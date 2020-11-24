@@ -1,6 +1,6 @@
 {
   "name": "@getpingback/editorjs",
-  "version": "2.19.1",
+  "version": "2.19.2",
   "description": "Pingback Editor.js — Private version of Editor.js",
   "main": "dist/editor.js",
   "types": "./types/index.d.ts",
@@ -67,7 +67,11 @@
     "tslint": "^6.1.1",
     "typescript": "3.8.3",
     "webpack": "^4.43.0",
-    "webpack-cli": "^3.3.11"
+    "webpack-cli": "^3.3.11",
+    "@fortawesome/fontawesome-svg-core": "^1.2.25",
+    "@fortawesome/free-solid-svg-icons": "^5.11.2",
+    "@fortawesome/pro-light-svg-icons": "^5.14.0",
+    "@fortawesome/pro-regular-svg-icons": "^5.14.0"
   },
   "dependencies": {
     "codex-notifier": "^1.1.2",

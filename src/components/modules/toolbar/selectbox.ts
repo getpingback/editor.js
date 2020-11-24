@@ -8,16 +8,16 @@ import I18n from '../../i18n';
 import { I18nInternalNS } from '../../i18n/namespace-internal';
 
 /**
- * @class Toolbox
+ * @class Selectbox
  * @classdesc Holder for Tools
  *
- * @typedef {Toolbox} Toolbox
+ * @typedef {Selectbox} Selectbox
  * @property {boolean} opened - opening state
- * @property {object} nodes   - Toolbox nodes
+ * @property {object} nodes   - Selectbox nodes
  * @property {object} CSS     - CSS class names
  *
  */
-export default class Toolbox extends Module {
+export default class Selectbox extends Module {
   /**
    * CSS styles
    *
@@ -25,19 +25,19 @@ export default class Toolbox extends Module {
    */
   public get CSS(): {[name: string]: string} {
     return {
-      toolbox: 'ce-toolbox',
-      toolboxButton: 'ce-toolbox__button',
-      toolboxButtonActive: 'ce-toolbox__button--active',
-      toolboxOpened: 'ce-toolbox--opened',
-      openedToolbarHolderModifier: 'codex-editor--toolbox-opened',
+      selectbox: 'ce-selectbox',
+      selectboxButton: 'ce-selectbox__button',
+      selectboxButtonActive: 'ce-selectbox__button--active',
+      selectboxOpened: 'ce-selectbox--opened',
+      openedToolbarHolderModifier: 'codex-editor--selectbox-opened',
 
-      buttonTooltip: 'ce-toolbox-button-tooltip',
-      buttonShortcut: 'ce-toolbox-button-tooltip__shortcut',
+      buttonTooltip: 'ce-selectbox-button-tooltip',
+      buttonShortcut: 'ce-selectbox-button-tooltip__shortcut',
     };
   }
 
   /**
-   * Returns True if Toolbox is Empty and nothing to show
+   * Returns True if Selectbox is Empty and nothing to show
    *
    * @returns {boolean}
    */
@@ -53,18 +53,18 @@ export default class Toolbox extends Module {
   public opened = false;
 
   /**
-   * HTMLElements used for Toolbox UI
+   * HTMLElements used for Selectbox UI
    */
   public nodes: {
-    toolbox: HTMLElement;
+    selectbox: HTMLElement;
     buttons: HTMLElement[];
   } = {
-    toolbox: null,
+    selectbox: null,
     buttons: [],
   };
 
   /**
-   * How many tools displayed in Toolbox
+   * How many tools displayed in Selectbox
    *
    * @type {number}
    */
@@ -78,21 +78,20 @@ export default class Toolbox extends Module {
   private flipper: Flipper = null;
 
   /**
-   * Makes the Toolbox
+   * Makes the Selectbox
    */
   public make(): void {
-    this.nodes.toolbox = $.make('div', this.CSS.toolbox);
-    $.append(this.Editor.UI.nodes.wrapper, this.nodes.toolbox);
+    this.nodes.selectbox = $.make('div', this.CSS.selectbox);
+    $.append(this.Editor.Toolbox.nodes.toolbox, this.nodes.selectbox);
 
     this.addTools();
-    this.addDefaultTools();
     this.enableFlipper();
   }
 
   /**
-   * Toolbox Tool's button click handler
+   * Selectbox Tool's button click handler
    *
-   * @param {MouseEvent|KeyboardEvent} event - event that activates toolbox button
+   * @param {MouseEvent|KeyboardEvent} event - event that activates selectbox button
    * @param {string} toolName - button to activate
    */
   public toolButtonActivate(event: MouseEvent|KeyboardEvent, toolName: string): void {
@@ -102,7 +101,7 @@ export default class Toolbox extends Module {
   }
 
   /**
-   * Open Toolbox with Tools
+   * Open Selectbox with Tools
    */
   public open(): void {
     if (this.isEmpty) {
@@ -110,17 +109,17 @@ export default class Toolbox extends Module {
     }
 
     this.Editor.UI.nodes.wrapper.classList.add(this.CSS.openedToolbarHolderModifier);
-    this.nodes.toolbox.classList.add(this.CSS.toolboxOpened);
+    this.nodes.selectbox.classList.add(this.CSS.selectboxOpened);
 
     this.opened = true;
     this.flipper.activate();
   }
 
   /**
-   * Close Toolbox
+   * Close Selectbox
    */
   public close(): void {
-    this.nodes.toolbox.classList.remove(this.CSS.toolboxOpened);
+    this.nodes.selectbox.classList.remove(this.CSS.selectboxOpened);
     this.Editor.UI.nodes.wrapper.classList.remove(this.CSS.openedToolbarHolderModifier);
 
     this.opened = false;
@@ -128,7 +127,7 @@ export default class Toolbox extends Module {
   }
 
   /**
-   * Close Toolbox
+   * Close Selectbox
    */
   public toggle(): void {
     if (!this.opened) {
@@ -139,14 +138,7 @@ export default class Toolbox extends Module {
   }
 
   /**
-   * Add default tools to the Toolbox
-   */
-  private addDefaultTools(): void {
-    this.Editor.DefaultTools.renderAll;
-  }
-
-  /**
-   * Iterates available tools and appends them to the Toolbox
+   * Iterates available tools and appends them to the Selectbox
    */
   private addTools(): void {
     const tools = this.Editor.Tools.available;
@@ -159,7 +151,7 @@ export default class Toolbox extends Module {
   }
 
   /**
-   * Append Tool to the Toolbox
+   * Append Tool to the Selectbox
    *
    * @param {string} toolName - tool name
    * @param {BlockToolConstructable} tool - tool class
@@ -168,16 +160,16 @@ export default class Toolbox extends Module {
     const internalSettings = this.Editor.Tools.INTERNAL_SETTINGS;
     const userSettings = this.Editor.Tools.USER_SETTINGS;
 
-    const toolToolboxSettings = tool[internalSettings.TOOLBOX];
+    const toolSelectboxSettings = tool[internalSettings.TOOLBOX];
 
     /**
-     * Skip tools that don't pass 'toolbox' property
+     * Skip tools that don't pass 'selectbox' property
      */
-    if (_.isEmpty(toolToolboxSettings)) {
+    if (_.isEmpty(toolSelectboxSettings)) {
       return;
     }
 
-    if (toolToolboxSettings && !toolToolboxSettings.icon) {
+    if (toolSelectboxSettings && !toolSelectboxSettings.icon) {
       _.log('Toolbar icon is missed. Tool %o skipped', 'warn', toolName);
 
       return;
@@ -191,24 +183,24 @@ export default class Toolbox extends Module {
     //   return;
     // }
 
-    const userToolboxSettings = this.Editor.Tools.getToolSettings(toolName)[userSettings.TOOLBOX];
+    const userSelectboxSettings = this.Editor.Tools.getToolSettings(toolName)[userSettings.TOOLBOX];
 
     /**
-     * Hide Toolbox button if Toolbox settings is false
+     * Hide Selectbox button if Selectbox settings is false
      */
-    if ((userToolboxSettings ?? toolToolboxSettings) === false) {
+    if ((userSelectboxSettings ?? toolSelectboxSettings) === false) {
       return;
     }
 
-    const button = $.make('li', [ this.CSS.toolboxButton ]);
+    const button = $.make('li', [ this.CSS.selectboxButton ]);
 
     button.dataset.tool = toolName;
-    button.innerHTML = (userToolboxSettings && userToolboxSettings.icon) || toolToolboxSettings.icon;
+    button.innerHTML = (userSelectboxSettings && userSelectboxSettings.icon) || toolSelectboxSettings.icon + toolSelectboxSettings.title;
 
-    // $.append(this.nodes.toolbox, button);
+    $.append(this.nodes.selectbox, button);
 
-    // this.nodes.toolbox.appendChild(button);
-    // this.nodes.buttons.push(button);
+    this.nodes.selectbox.appendChild(button);
+    this.nodes.buttons.push(button);
 
     /**
      * Add click listener
@@ -218,7 +210,7 @@ export default class Toolbox extends Module {
     });
 
     /**
-     * Add listeners to show/hide toolbox tooltip
+     * Add listeners to show/hide selectbox tooltip
      */
     const tooltipContent = this.drawTooltip(toolName);
 
@@ -241,16 +233,16 @@ export default class Toolbox extends Module {
   }
 
   /**
-   * Draw tooltip for toolbox tools
+   * Draw tooltip for selectbox tools
    *
-   * @param {string} toolName - toolbox tool name
+   * @param {string} toolName - selectbox tool name
    * @returns {HTMLElement}
    */
   private drawTooltip(toolName: string): HTMLElement {
     const toolSettings = this.Editor.Tools.getToolSettings(toolName);
-    const toolboxSettings = this.Editor.Tools.available[toolName][this.Editor.Tools.INTERNAL_SETTINGS.TOOLBOX] || {};
-    const userToolboxSettings = toolSettings.toolbox || {};
-    const name = I18n.t(I18nInternalNS.toolNames, userToolboxSettings.title || toolboxSettings.title || toolName);
+    const selectboxSettings = this.Editor.Tools.available[toolName][this.Editor.Tools.INTERNAL_SETTINGS.TOOLBOX] || {};
+    const userSelectboxSettings = toolSettings.selectbox || {};
+    const name = I18n.t(I18nInternalNS.toolNames, userSelectboxSettings.title || selectboxSettings.title || toolName);
 
     let shortcut = toolSettings[this.Editor.Tools.USER_SETTINGS.SHORTCUT];
 
@@ -291,17 +283,17 @@ export default class Toolbox extends Module {
    * Creates Flipper instance to be able to leaf tools
    */
   private enableFlipper(): void {
-    const tools = Array.from(this.nodes.toolbox.childNodes) as HTMLElement[];
+    const tools = Array.from(this.nodes.selectbox.childNodes) as HTMLElement[];
 
     this.flipper = new Flipper({
       items: tools,
-      focusedItemClass: this.CSS.toolboxButtonActive,
+      focusedItemClass: this.CSS.selectboxButtonActive,
     });
   }
 
   /**
    * Inserts new block
-   * Can be called when button clicked on Toolbox or by ShortcutData
+   * Can be called when button clicked on Selectbox or by ShortcutData
    *
    * @param {BlockToolConstructable} tool - Tool Class
    * @param {string} toolName - Tool name

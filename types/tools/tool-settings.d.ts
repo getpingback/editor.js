@@ -17,6 +17,21 @@ export interface ToolboxConfig {
 }
 
 /**
+ * Tool's Selectbox settings
+ */
+export interface SelectboxConfig {
+  /**
+   * Tool title for Selectbox
+   */
+  title?: string;
+
+  /**
+   * HTML string with an icon for Selectbox
+   */
+  icon?: string;
+}
+
+/**
  * Object passed to the Tool's constructor by {@link EditorConfig#tools}
  */
 export interface ToolSettings {
@@ -47,4 +62,10 @@ export interface ToolSettings {
    * It will be hidden from Toolbox when false is specified.
    */
   toolbox?: ToolboxConfig | false;
+
+  /**
+   * Tool's Selectbox settings
+   * It will be hidden from Selectbox when false is specified.
+   */
+  selectbox?: SelectboxConfig | false;
 }

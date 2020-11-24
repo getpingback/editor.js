@@ -467,14 +467,14 @@ export default class BlockEvents extends Module {
         return;
       }
 
-      this.Editor.UI.closeAllToolbars();
+      // this.Editor.UI.closeAllToolbars();
     }
 
     /**
      * Close Toolbar and highlighting when user moves cursor
      */
     this.Editor.BlockManager.clearFocused();
-    this.Editor.Toolbar.close();
+    // this.Editor.Toolbar.close();
 
     const shouldEnableCBS = this.Editor.Caret.isAtStart || this.Editor.BlockSelection.anyBlockSelected;
 

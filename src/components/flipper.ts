@@ -86,7 +86,7 @@ export default class Flipper {
       _.keyCodes.RIGHT,
       _.keyCodes.ENTER,
       _.keyCodes.UP,
-      _.keyCodes.DOWN,
+      _.keyCodes.DOWN
     ];
   }
 
@@ -107,7 +107,8 @@ export default class Flipper {
      * TAB will leaf iterator items
      * ENTER will click the focused item
      */
-    document.addEventListener('keydown', this.onKeyDown);
+    // Deactivate because now Toolbar is always opened
+    // document.addEventListener('keydown', this.onKeyDown);
   }
 
   /**
@@ -194,6 +195,9 @@ export default class Flipper {
         break;
       case _.keyCodes.ENTER:
         this.handleEnterPress(event);
+        break;
+      case _.keyCodes.ESC:
+        this.dropCursor();
         break;
     }
   };

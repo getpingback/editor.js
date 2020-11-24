@@ -365,13 +365,13 @@ export default class Tools extends Module {
   public getToolSettings(toolName): ToolSettings {
     const settings = this.toolsSettings[toolName];
     const config = settings[this.USER_SETTINGS.CONFIG] || {};
-
+    
     // Pass placeholder to default Block config
     if (toolName === this.config.defaultBlock && !config.placeholder) {
       config.placeholder = this.config.placeholder;
       settings[this.USER_SETTINGS.CONFIG] = config;
     }
-
+    
     return settings;
   }
 

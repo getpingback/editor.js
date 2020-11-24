@@ -123,14 +123,20 @@ export default class Toolbar extends Module {
      *  - Toolbox
      */
     this.nodes.plusButton = $.make('div', this.CSS.plusButton);
-    $.append(this.nodes.plusButton, $.svg('plus', 14, 14));
-    $.append(this.nodes.content, this.nodes.plusButton);
+    //$.append(this.nodes.plusButton, $.svg('plus', 14, 14));
+    //$.append(this.nodes.content, this.nodes.plusButton);
 
     /**
      * Already starts opened on click
      */
     this.Editor.Toolbox.make();
     this.Editor.Toolbox.open();
+
+    /**
+     * Selectbox is a selectable dropdown menu that's opened when user clicks on Plus button inside toolbar
+     */
+    this.Editor.Selectbox.make();
+    this.Editor.Listeners.on(this.nodes.plusButton, 'click', () => this.plusButtonClicked(), false);
     
     /**
      * Add events to show/hide tooltip for plus button
@@ -209,17 +215,10 @@ export default class Toolbar extends Module {
     let toolbarY = currentBlock.offsetTop;
 
     /**
-     * 1) On desktop — Toolbar at the top of Block, Plus/Toolbox moved the center of Block
-     * 2) On mobile — Toolbar at the bottom of Block
+     * Toolbar always at the top of Block, Plus/Toolbox moved the center of Block
      */
-    if (!isMobile) {
-      const contentOffset = Math.floor(blockHeight / 2);
-
-      this.nodes.plusButton.style.transform = `translate3d(0, calc(${contentOffset}px - 50%), 0)`;
-      //this.Editor.Toolbox.nodes.toolbox.style.transform = `translate3d(0, calc(${contentOffset}px - 50%), 0)`;
-    } else {
-      toolbarY += blockHeight;
-    }
+    const contentOffset = Math.floor(blockHeight / 2);
+    this.nodes.plusButton.style.transform = `translate3d(0, calc(${contentOffset}px - 50%), 0)`;
 
     /**
      * Move Toolbar to the Top coordinate of Block
@@ -303,6 +302,14 @@ export default class Toolbar extends Module {
       },
     };
   }
+
+  /**
+   * Handler for Plus Button
+   */
+  private plusButtonClicked(): void {
+    this.Editor.Selectbox.toggle();
+  }
+
 
   /**
    * Bind events on the Toolbar Elements:

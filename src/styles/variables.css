@@ -1,3 +1,4 @@
+@custom-media --small (width <= 320px);
 @custom-media --mobile (width <= 650px);
 @custom-media --not-mobile (width >= 651px);
 
@@ -7,6 +8,11 @@
    */
   --selectionColor: #e1f2ff;
   --inlineSelectionColor: #d4ecff;
+
+  /**
+   * Main Font
+   */
+  --main-font: 'Open Sans', Arial, Helvetica, sans-serif;
 
   /**
    * Toolbar buttons
@@ -99,6 +105,37 @@
     display: inline-flex;
     justify-content: center;
     align-items: center;
+
+    &:hover,
+    &--active {
+      color: var(--color-active-icon);
+    }
+
+    &--active{
+      animation: bounceIn 0.75s 1;
+      animation-fill-mode: forwards;
+    }
+
+  };
+
+  /**
+   * Styles for Selectox Itens
+   */
+   --selectbox-item: {
+    color: var(--grayText);
+    cursor: pointer;
+    height: var(--toolbox-buttons-size);
+    display: inline-flex;
+    align-items: center;
+    font-family: var(--main-font);
+    color: #68746E;
+    font-size: 14px;
+    letter-spacing: 0;
+    line-height: 24px;
+
+    svg {
+      margin-right: 10px;
+    }
 
     &:hover,
     &--active {
