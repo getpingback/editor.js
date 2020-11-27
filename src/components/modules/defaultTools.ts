@@ -1,6 +1,7 @@
 import Module from '../__module';
 import * as _ from '../utils';
 import $ from '../dom';
+import SelectionUtils from '../../components/selection';
 
 /**
  * Icons importations from FontAwesome
@@ -99,19 +100,22 @@ export default class DefaultTools extends Module {
   }
 
   public get addItalicButton(): void {
-    this.nodes.boldButton = document.createElement('li') as HTMLLIElement;
-    this.nodes.boldButton.classList.add(this.Editor.Toolbox.CSS.toolboxButton);
-    this.nodes.boldButton.appendChild($.svg('italic', 12, 14));
+    this.nodes.italicButton = document.createElement('li') as HTMLLIElement;
+    this.nodes.italicButton.classList.add(this.Editor.Toolbox.CSS.toolboxButton);
+    this.nodes.italicButton.appendChild($.svg('italic', 12, 14));
 
     /**
      * Add click listener
      */
-    this.Editor.Listeners.on(this.nodes.boldButton, 'click', (event: KeyboardEvent | MouseEvent) => {
-      alert('clicked italic');
+    this.Editor.Listeners.on(this.nodes.italicButton, 'click', (event: KeyboardEvent | MouseEvent) => {
+      console.log('selection', window.getSelection());
+      event.preventDefault();
+      const range = SelectionUtils.range;
+      document.execCommand('italic');
     });
 
-    this.Editor.Toolbox.nodes.toolbox.appendChild(this.nodes.boldButton);
-    this.Editor.Toolbox.nodes.buttons.push(this.nodes.boldButton);
+    this.Editor.Toolbox.nodes.toolbox.appendChild(this.nodes.italicButton);
+    this.Editor.Toolbox.nodes.buttons.push(this.nodes.italicButton);
 
     return;
   }
