@@ -26,6 +26,7 @@ export default class Selectbox extends Module {
   public get CSS(): {[name: string]: string} {
     return {
       selectbox: 'ce-selectbox',
+      selectboxList: 'ce-selectbox__list',
       selectboxButton: 'ce-selectbox__button',
       selectboxButtonActive: 'ce-selectbox__button--active',
       selectboxOpened: 'ce-selectbox--opened',
@@ -57,9 +58,11 @@ export default class Selectbox extends Module {
    */
   public nodes: {
     selectbox: HTMLElement;
+    selectboxList: HTMLElement;
     buttons: HTMLElement[];
   } = {
     selectbox: null,
+    selectboxList: null,
     buttons: [],
   };
 
@@ -82,7 +85,10 @@ export default class Selectbox extends Module {
    */
   public make(): void {
     this.nodes.selectbox = $.make('div', this.CSS.selectbox);
-    $.append(this.Editor.Toolbox.nodes.toolbox, this.nodes.selectbox);
+    $.append(this.Editor.InlineToolbar.nodes.wrapper, this.nodes.selectbox);
+
+    this.nodes.selectboxList = $.make('ul', this.CSS.selectboxList);
+    $.append(this.nodes.selectbox, this.nodes.selectboxList);
 
     this.addTools();
     this.enableFlipper();
@@ -194,12 +200,16 @@ export default class Selectbox extends Module {
 
     const button = $.make('li', [ this.CSS.selectboxButton ]);
 
+    const title = $.make('span', null);
+    title.innerHTML = toolSelectboxSettings.title;
+
     button.dataset.tool = toolName;
-    button.innerHTML = (userSelectboxSettings && userSelectboxSettings.icon) || toolSelectboxSettings.icon + toolSelectboxSettings.title;
+    button.innerHTML = (userSelectboxSettings && userSelectboxSettings.icon) || toolSelectboxSettings.icon;
+    button.appendChild(title);
 
-    $.append(this.nodes.selectbox, button);
+    $.append(this.nodes.selectboxList, button);
 
-    this.nodes.selectbox.appendChild(button);
+    this.nodes.selectboxList.appendChild(button);
     this.nodes.buttons.push(button);
 
     /**
@@ -323,10 +333,5 @@ export default class Selectbox extends Module {
         Caret.setToBlock(BlockManager.nextBlock);
       }
     }
-
-    /**
-     * close toolbar when node is changed
-     */
-    this.Editor.Toolbar.close();
   }
 }

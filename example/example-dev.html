@@ -131,36 +131,16 @@
           shortcut: 'CMD+SHIFT+O'
         },
 
-        warning: Warning,
-
         marker: {
           class:  Marker,
           shortcut: 'CMD+SHIFT+M'
         },
 
-        code: {
-          class:  CodeTool,
-          shortcut: 'CMD+SHIFT+C'
-        },
-
         delimiter: Delimiter,
-
-        inlineCode: {
-          class: InlineCode,
-          shortcut: 'CMD+SHIFT+C'
-        },
 
         linkTool: LinkTool,
 
-        raw: RawTool,
-
         embed: Embed,
-
-        table: {
-          class: Table,
-          inlineToolbar: true,
-          shortcut: 'CMD+ALT+T'
-        },
 
       },
 
@@ -271,6 +251,7 @@
           },
         ]
       },
+      autofocus: true,
       onReady: function(){
         saveButton.click();
       },

@@ -1,5 +1,7 @@
-import $ from '../dom';
 import { InlineTool, SanitizerConfig } from '../../../types';
+import { library, icon } from '@fortawesome/fontawesome-svg-core';
+import { faItalic } from '@fortawesome/pro-light-svg-icons';
+library.add(faItalic);
 
 /**
  * Italic Tool
@@ -61,7 +63,11 @@ export default class ItalicInlineTool implements InlineTool {
     this.nodes.button = document.createElement('button') as HTMLButtonElement;
     this.nodes.button.type = 'button';
     this.nodes.button.classList.add(this.CSS.button, this.CSS.buttonModifier);
-    this.nodes.button.appendChild($.svg('italic', 4, 11));
+
+    const elementIcon = document.createElement('svg');
+    elementIcon.innerHTML = icon({ prefix: 'fal', iconName: 'italic' }, { transform: { size: 23 } }).html[0];
+
+    this.nodes.button.appendChild(elementIcon);
 
     return this.nodes.button;
   }

@@ -38,6 +38,10 @@
     "@babel/register": "^7.9.0",
     "@babel/runtime": "^7.9.2",
     "@codexteam/shortcuts": "^1.1.1",
+    "@fortawesome/fontawesome-svg-core": "^1.2.32",
+    "@fortawesome/free-solid-svg-icons": "^5.11.2",
+    "@fortawesome/pro-light-svg-icons": "^5.14.0",
+    "@fortawesome/pro-regular-svg-icons": "^5.14.0",
     "@types/webpack": "^4.41.12",
     "@types/webpack-env": "^1.15.2",
     "babel-loader": "^8.1.0",
@@ -67,11 +71,7 @@
     "tslint": "^6.1.1",
     "typescript": "3.8.3",
     "webpack": "^4.43.0",
-    "webpack-cli": "^3.3.11",
-    "@fortawesome/fontawesome-svg-core": "^1.2.25",
-    "@fortawesome/free-solid-svg-icons": "^5.11.2",
-    "@fortawesome/pro-light-svg-icons": "^5.14.0",
-    "@fortawesome/pro-regular-svg-icons": "^5.14.0"
+    "webpack-cli": "^3.3.11"
   },
   "dependencies": {
     "codex-notifier": "^1.1.2",

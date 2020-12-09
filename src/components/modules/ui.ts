@@ -169,6 +169,11 @@ export default class UI extends Module {
     await this.Editor.InlineToolbar.make();
 
     /**
+     * Make the SelectBox
+     */
+    await this.Editor.Selectbox.make();
+
+    /**
      * Load and append CSS
      */
     await this.loadStyles();
@@ -338,6 +343,7 @@ export default class UI extends Module {
     this.Editor.Listeners.on(document, 'selectionchange', (event: Event) => {
       this.selectionChanged(event);
     }, true);
+    
 
     this.Editor.Listeners.on(window, 'resize', () => {
       this.resizeDebouncer();

@@ -1,12 +1,18 @@
 .ce-inline-toolbar {
-  @apply --overlay-pane;
-  transform: translateX(-50%) translateY(8px) scale(0.9);
-  opacity: 0;
-  visibility: hidden;
-  transition: transform 150ms ease, opacity 250ms ease;
+  transition: transform 150ms ease, opacity 250ms ease, box-shadow 0.2s ease-in-out;
   will-change: transform, opacity;
-  top: 0;
-  left: 0;
+  bottom: 38px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  position: fixed;
+  border-radius: 8px;
+  background-color: #FFFFFF;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.06), 0 15px 45px -2px rgba(0,0,0,0.05);
+  height: 60px;
+  padding: 0 15px;
+  left: 50%;
+  transform: translateX(-50%);
 
   &--showed {
     opacity: 1;
@@ -37,7 +43,6 @@
 
   &__buttons {
     display: flex;
-    padding: 0 6px;
   }
 
   &__actions {
@@ -47,13 +52,13 @@
     display: inline-flex;
     height: var(--toolbar-buttons-size);
     padding: 0 9px 0 10px;
-    margin: 0 6px 0 -6px;
+    margin: 0 0 0 -6px;
     align-items: center;
     cursor: pointer;
-    border-right: 1px solid var(--color-gray-border);
 
     &:hover {
       background: var(--bg-light);
+      border-radius: 12px;
     }
 
     &--hidden {
@@ -61,17 +66,23 @@
     }
 
     &-content{
+      font-family: var(--secondary-font);
       display: flex;
       font-weight: 500;
       font-size: 14px;
+      align-items: center;
+      line-height: 1;
+      color: var(--primary-color);
 
       svg {
         height: 12px;
+        margin-right: 7px;
       }
     }
 
     .icon--toggler-down {
-      margin-left: 4px;
+      margin-left: 35px;
+      color: var(--primary-color);
     }
   }
 
@@ -80,6 +91,18 @@
     word-spacing: -3px;
     margin-top: 3px;
   }
+
+  &__divider {
+    content: '';
+    height: 34px;
+    width: 1px;
+    background: #DFDFDF;
+    margin: 0 6px;
+  }
+
+  &:hover {
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.15), 0 15px 45px -2px rgba(0,0,0,0.16);
+  }
 }
 
 .ce-inline-tool {
@@ -87,11 +110,14 @@
   border-radius: 0;
   line-height: normal;
   width: auto;
-  padding: 0 5px !important;
+  padding: 0 12px !important;
   min-width: 24px;
+  margin: 0 5px;
+  color: var(--primary-color);
 
-  &:not(:last-of-type) {
-    margin-right: 2px;
+  &:hover {
+    background-color: var(--bg-light) !important;
+    border-radius: 50%;
   }
 
   .icon {
@@ -129,7 +155,7 @@
     box-sizing: border-box;
     display: none;
     font-weight: 500;
-    border-top: 1px solid rgba(201,201,204,.48);
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.06), 0 15px 45px -2px rgba(0,0,0,0.05);
 
     &::placeholder {
       color: var(--grayText);
