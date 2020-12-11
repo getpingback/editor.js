@@ -535,9 +535,14 @@ export default class InlineToolbar extends Module {
     const toolboxSettings = Tools.available[toolName][Tools.INTERNAL_SETTINGS.TOOLBOX] || {};
     const userToolboxSettings = toolSettings.toolbox || {};
 
+    const toolTitle = I18n.t(
+      I18nInternalNS.toolNames,
+      Tools.toolsClasses[toolName][Tools.INTERNAL_SETTINGS.TITLE] || _.capitalize(toolName)
+    );
+
     this.nodes.conversionTogglerContent.innerHTML =
       userToolboxSettings.icon ||
-      _.capitalize(toolName) ||
+      _.capitalize(toolTitle) ||
       userToolboxSettings.title ||
       toolboxSettings.title;
   }

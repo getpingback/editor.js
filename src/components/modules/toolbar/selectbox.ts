@@ -199,12 +199,15 @@ export default class Selectbox extends Module {
     }
 
     const button = $.make('li', [ this.CSS.selectboxButton ]);
-
+    const svg = $.make('div', null);
+    svg.innerHTML = (userSelectboxSettings && userSelectboxSettings.icon) || toolSelectboxSettings.icon;
+    
+    
     const title = $.make('span', null);
-    title.innerHTML = toolSelectboxSettings.title;
+    title.innerHTML = I18n.t(I18nInternalNS.toolNames, (userSelectboxSettings && userSelectboxSettings.title) || toolSelectboxSettings.title || toolName);
 
     button.dataset.tool = toolName;
-    button.innerHTML = (userSelectboxSettings && userSelectboxSettings.icon) || toolSelectboxSettings.icon;
+    button.appendChild(svg);
     button.appendChild(title);
 
     $.append(this.nodes.selectboxList, button);
