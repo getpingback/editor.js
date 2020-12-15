@@ -98,6 +98,10 @@
     width: 1px;
     background: #DFDFDF;
     margin: 0 6px;
+
+    &--hidden {
+      display: none;
+    }
   }
 
   &:hover {

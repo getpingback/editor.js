@@ -37,6 +37,8 @@ export default class InlineToolbar extends Module {
     conversionToggler: 'ce-inline-toolbar__dropdown',
     conversionTogglerHidden: 'ce-inline-toolbar__dropdown--hidden',
     conversionTogglerContent: 'ce-inline-toolbar__dropdown-content',
+    conversionTogglerDivider: 'ce-inline-toolbar__divider',
+    conversionTogglerDividerHidden: 'ce-inline-toolbar__divider--hidden',
   };
 
   /**
@@ -54,6 +56,7 @@ export default class InlineToolbar extends Module {
     buttons: HTMLElement;
     conversionToggler: HTMLElement;
     conversionTogglerContent: HTMLElement;
+    conversionTogglerDivider: HTMLElement;
     actions: HTMLElement;
     plusButton: HTMLButtonElement;
   } = {
@@ -61,6 +64,7 @@ export default class InlineToolbar extends Module {
     buttons: null,
     conversionToggler: null,
     conversionTogglerContent: null,
+    conversionTogglerDivider: null,
     /**
      * Zone below the buttons where Tools can create additional actions by 'renderActions()' method
      * For example, input for the 'link' tool or textarea for the 'comment' tool
@@ -152,11 +156,6 @@ export default class InlineToolbar extends Module {
     this.addConversionToggler();
 
     /**
-     * Add divider for elements
-     */
-    this.addDivider();
-
-    /**
      * Append Inline Toolbar Tools
      */
     this.addTools();
@@ -200,18 +199,8 @@ export default class InlineToolbar extends Module {
    * @param {boolean} [needToClose] - pass true to close toolbar if it is not allowed.
    *                                  Avoid to use it just for closing IT, better call .close() clearly.
    */
-  public tryToShow(needToClose = false): void {
-    if (!this.allowedToShow()) {
-      if (needToClose) {
-        this.close();
-      }
-
-      return;
-    }
-
-    //this.move();
+  public tryToShow(): void {
     this.open();
-    //this.Editor.Toolbar.close();
 
     /** Check Tools state for selected fragment */
     this.checkToolsState();
@@ -308,6 +297,7 @@ export default class InlineToolbar extends Module {
 
     this.flipper.deactivate();
     this.Editor.ConversionToolbar.close();
+    this.Editor.Selectbox.close();
   }
 
   /**
@@ -330,7 +320,6 @@ export default class InlineToolbar extends Module {
 
     this.buttonsList = this.nodes.buttons.querySelectorAll(`.${this.CSS.inlineToolButton}`);
     this.opened = true;
-
     if (this.Editor.ConversionToolbar.hasTools()) {
       /**
        * Change Conversion Dropdown content for current tool
@@ -477,6 +466,7 @@ export default class InlineToolbar extends Module {
   private addConversionToggler(): void {
     this.nodes.conversionToggler = $.make('div', this.CSS.conversionToggler);
     this.nodes.conversionTogglerContent = $.make('div', this.CSS.conversionTogglerContent);
+    this.nodes.conversionTogglerDivider = $.make('div', this.CSS.conversionTogglerDivider);
 
     const elementIcon = document.createElement('svg');
     elementIcon.classList.add('icon--toggler-down');
@@ -486,6 +476,8 @@ export default class InlineToolbar extends Module {
     this.nodes.conversionToggler.appendChild(elementIcon);
 
     this.nodes.buttons.appendChild(this.nodes.conversionToggler);
+
+    this.nodes.buttons.appendChild(this.nodes.conversionTogglerDivider);
 
     this.Editor.Listeners.on(this.nodes.conversionToggler, 'click', () => {
       this.Editor.ConversionToolbar.toggle((conversionToolbarOpened) => {
@@ -527,6 +519,7 @@ export default class InlineToolbar extends Module {
 
     this.nodes.conversionToggler.hidden = !exportRuleDefined;
     this.nodes.conversionToggler.classList.toggle(this.CSS.conversionTogglerHidden, !exportRuleDefined);
+    this.nodes.conversionTogglerDivider.classList.toggle(this.CSS.conversionTogglerDividerHidden, !exportRuleDefined);
 
     /**
      * Get icon or title for dropdown

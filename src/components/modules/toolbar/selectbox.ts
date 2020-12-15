@@ -26,6 +26,7 @@ export default class Selectbox extends Module {
   public get CSS(): {[name: string]: string} {
     return {
       selectbox: 'ce-selectbox',
+      selectBoxActive: 'ce-inline-tool--active',
       selectboxList: 'ce-selectbox__list',
       selectboxButton: 'ce-selectbox__button',
       selectboxButtonActive: 'ce-selectbox__button--active',
@@ -116,6 +117,7 @@ export default class Selectbox extends Module {
 
     this.Editor.UI.nodes.wrapper.classList.add(this.CSS.openedToolbarHolderModifier);
     this.nodes.selectbox.classList.add(this.CSS.selectboxOpened);
+    this.Editor.InlineToolbar.nodes.plusButton.classList.add(this.CSS.selectBoxActive);
 
     this.opened = true;
     this.flipper.activate();
@@ -127,6 +129,7 @@ export default class Selectbox extends Module {
   public close(): void {
     this.nodes.selectbox.classList.remove(this.CSS.selectboxOpened);
     this.Editor.UI.nodes.wrapper.classList.remove(this.CSS.openedToolbarHolderModifier);
+    this.Editor.InlineToolbar.nodes.plusButton.classList.remove(this.CSS.selectBoxActive);
 
     this.opened = false;
     this.flipper.deactivate();
@@ -141,6 +144,13 @@ export default class Selectbox extends Module {
     } else {
       this.close();
     }
+  }
+
+  /**
+   * Check status
+   */
+  public isOpen(): Boolean {
+    return this.opened;
   }
 
   /**
@@ -220,6 +230,7 @@ export default class Selectbox extends Module {
      */
     this.Editor.Listeners.on(button, 'click', (event: KeyboardEvent|MouseEvent) => {
       this.toolButtonActivate(event, toolName);
+      this.close();
     });
 
     /**

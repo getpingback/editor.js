@@ -228,11 +228,12 @@ export default class UI extends Module {
    * Close all Editor's toolbars
    */
   public closeAllToolbars(): void {
-    const { Toolbox, BlockSettings, InlineToolbar, ConversionToolbar } = this.Editor;
+    const { Toolbox, BlockSettings, InlineToolbar, ConversionToolbar, Selectbox } = this.Editor;
 
     BlockSettings.close();
     InlineToolbar.close();
     ConversionToolbar.close();
+    Selectbox.close();
     Toolbox.close();
   }
 
@@ -467,6 +468,8 @@ export default class UI extends Module {
       this.Editor.BlockSettings.close();
     } else if (this.Editor.ConversionToolbar.opened) {
       this.Editor.ConversionToolbar.close();
+    } else if (this.Editor.Selectbox.opened) {
+      this.Editor.Selectbox.close();
     } else if (this.Editor.InlineToolbar.opened) {
       this.Editor.InlineToolbar.close();
     } else {
@@ -568,6 +571,7 @@ export default class UI extends Module {
       this.Editor.InlineToolbar.close();
       this.Editor.Toolbar.close();
       this.Editor.ConversionToolbar.close();
+      this.Editor.Selectbox.close();
     }
 
     /**
@@ -731,7 +735,7 @@ export default class UI extends Module {
       return;
     }
 
-    this.Editor.InlineToolbar.tryToShow(true);
+    this.Editor.InlineToolbar.tryToShow();
   }
 
   /**
