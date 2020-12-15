@@ -1,6 +1,6 @@
 {
   "name": "@getpingback/editorjs",
-  "version": "2.19.4",
+  "version": "2.19.5",
   "description": "Pingback Editor.js — Private version of Editor.js",
   "main": "dist/editor.js",
   "types": "./types/index.d.ts",
