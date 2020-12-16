@@ -17,6 +17,8 @@ import Selection from '../selection';
 import Block from '../block';
 import Flipper from '../flipper';
 
+import GalleryModal from '../gallery/gallery_modal';
+
 /**
  * @class
  *
@@ -173,12 +175,33 @@ export default class UI extends Module {
      */
     await this.loadStyles();
 
+
+    this.galleryButton();
+
     /**
      * Bind events for the UI elements
      */
     await this.bindEvents();
   }
 
+  public galleryButton(): void {
+
+    let gallery = new GalleryModal();
+
+    console.log('jdkasd');
+    console.log(localStorage.getItem('token')); 
+    console.log('jdkasd');
+
+    const button = document.createElement("input");
+    button.type = "button";
+    button.value = "Gallery";
+    button.setAttribute("id", "gallery-modal");
+    // button.onclick = func
+    this.nodes.wrapper.appendChild(button);
+
+    button.addEventListener("click", gallery.open(), false);    
+
+  }
   /**
    * Check if Editor is empty and set CSS class to wrapper
    */
