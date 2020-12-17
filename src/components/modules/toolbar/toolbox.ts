@@ -302,6 +302,8 @@ export default class Toolbox extends Module {
     const { BlockManager, Caret } = this.Editor;
     const { currentBlock } = BlockManager;
 
+    if (!currentBlock) return;
+
     const newBlock = BlockManager.insert({
       tool: toolName,
       replace: currentBlock.isEmpty,

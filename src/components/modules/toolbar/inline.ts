@@ -509,6 +509,8 @@ export default class InlineToolbar extends Module {
    */
   private setConversionTogglerContent(): void {
     const { BlockManager, Tools } = this.Editor;
+    
+    if (!BlockManager.currentBlock) return;
     const toolName = BlockManager.currentBlock.name;
 
     /**

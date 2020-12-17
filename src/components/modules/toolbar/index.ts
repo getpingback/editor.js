@@ -195,6 +195,8 @@ export default class Toolbar extends Module {
       this.Editor.BlockSettings.close();
     }
 
+    if (!this.Editor.BlockManager.currentBlock) return;
+
     const currentBlock = this.Editor.BlockManager.currentBlock.holder;
 
     /**
