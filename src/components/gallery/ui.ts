@@ -68,7 +68,7 @@ export default class Ui {
 
         search_input.setAttribute('type', 'text');
         search_input.setAttribute('placeholder', 'Search on');
-        search_input.dataset.engine(engine);
+        search_input.setAttribute('data-engine', engine);
         search_field.classList.add("search-container__field");
         search_field.appendChild(search_input);
         
