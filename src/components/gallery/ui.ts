@@ -33,19 +33,8 @@ export default class Ui {
         
         sidebar_menu.classList.add("sidebar__menu");
 
-        this.options_menu.forEach(function(name){
-            
-            let action = document.createElement("a");
-            let item = document.createElement("li");
-            
-            action.appendChild(document.createTextNode(name));
-            action.classList.add('engine-option');
-            action.setAttribute('data-engine', name.toLowerCase());
-
-            item.appendChild(action);
-            
-            menu_list.appendChild(item);
-        
+        this.options_menu.forEach(function(name){        
+            menu_list.appendChild(this.menuItem(name));        
         });
 
         sidebar_menu.appendChild(menu_list);
@@ -53,35 +42,17 @@ export default class Ui {
         return sidebar_menu;
     }
     
-    menuItens() {
-        const sidebar_menu = document.createElement("div");
-        const title = document.createElement("h2");
-        const menu_list = document.createElement("ul");
-
-        title.append(document.createTextNode(this.title_menu));
-
-        menu_list.appendChild(title);
+    menuItem(name) {
+        let action = document.createElement("a");
+        let item = document.createElement("li");
         
-        sidebar_menu.classList.add("sidebar__menu");
+        action.appendChild(document.createTextNode(name));
+        action.classList.add('engine-option');
+        action.setAttribute('data-engine', name.toLowerCase());
 
-        this.options_menu.forEach(function(name){
-            
-            let action = document.createElement("a");
-            let item = document.createElement("li");
-            
-            action.appendChild(document.createTextNode(name));
-            action.classList.add('engine-option');
-            action.setAttribute('data-engine', name.toLowerCase());
-
-            item.appendChild(action);
-            
-            menu_list.appendChild(item);
+        item.appendChild(action);
         
-        });
-
-        sidebar_menu.appendChild(menu_list);
-
-        return sidebar_menu;
+        return item;
     }
 
     searchBox() {
@@ -91,12 +62,13 @@ export default class Ui {
         return search;
     }
 
-    searchField() {
+    searchField(engine) {
         const search_field = document.createElement("div");
         const search_input = document.createElement("input");
 
         search_input.setAttribute('type', 'text');
         search_input.setAttribute('placeholder', 'Search on');
+        search_input.dataset.engine(engine);
         search_field.classList.add("search-container__field");
         search_field.appendChild(search_input);
         
