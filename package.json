@@ -1,6 +1,6 @@
 {
   "name": "@getpingback/editorjs",
-  "version": "2.19.2",
+  "version": "2.19.7",
   "description": "Pingback Editor.js — Private version of Editor.js",
   "main": "dist/editor.js",
   "types": "./types/index.d.ts",
@@ -38,7 +38,7 @@
     "@babel/register": "^7.9.0",
     "@babel/runtime": "^7.9.2",
     "@codexteam/shortcuts": "^1.1.1",
-    "@fortawesome/fontawesome-svg-core": "^1.2.25",
+    "@fortawesome/fontawesome-svg-core": "^1.2.32",
     "@fortawesome/free-solid-svg-icons": "^5.11.2",
     "@fortawesome/pro-light-svg-icons": "^5.14.0",
     "@fortawesome/pro-regular-svg-icons": "^5.14.0",

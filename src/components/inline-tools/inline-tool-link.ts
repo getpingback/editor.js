@@ -4,6 +4,10 @@ import $ from '../dom';
 import * as _ from '../utils';
 import { API, InlineTool, SanitizerConfig } from '../../../types';
 import { Notifier, Toolbar, I18n } from '../../../types/api';
+import { library, icon } from '@fortawesome/fontawesome-svg-core';
+import { faLink, faUnlink } from '@fortawesome/pro-light-svg-icons';
+library.add(faLink);
+library.add(faUnlink);
 
 /**
  * Link Tool
@@ -123,8 +127,16 @@ export default class LinkInlineTool implements InlineTool {
     this.nodes.button = document.createElement('button') as HTMLButtonElement;
     this.nodes.button.type = 'button';
     this.nodes.button.classList.add(this.CSS.button, this.CSS.buttonModifier);
-    this.nodes.button.appendChild($.svg('link', 14, 10));
-    this.nodes.button.appendChild($.svg('unlink', 15, 11));
+    
+    const elementIconLink = document.createElement('svg');
+    elementIconLink.classList.add('icon--link');
+    elementIconLink.innerHTML = icon({ prefix: 'fal', iconName: 'link' }, { transform: { size: 23 } }).html[0];
+    this.nodes.button.appendChild(elementIconLink);
+
+    const elementIconUnlink = document.createElement('svg');
+    elementIconUnlink.classList.add('icon--unlink');
+    elementIconUnlink.innerHTML = icon({ prefix: 'fal', iconName: 'unlink' }, { transform: { size: 23 } }).html[0];
+    this.nodes.button.appendChild(elementIconUnlink);
 
     return this.nodes.button;
   }

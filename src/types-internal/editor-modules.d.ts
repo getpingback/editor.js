@@ -16,7 +16,6 @@ import ModificationsObserver from '../components/modules/modificationsObserver';
 import Renderer from '../components/modules/renderer';
 import Sanitizer from '../components/modules/sanitizer';
 import Tools from '../components/modules/tools';
-import DefaultTools from '../components/modules/defaultTools';
 import API from '../components/modules/api/index';
 import Caret from '../components/modules/caret';
 import BlockManager from '../components/modules/blockManager';
@@ -48,7 +47,6 @@ export interface EditorModules {
   Toolbar: Toolbar;
   InlineToolbar: InlineToolbar;
   Toolbox: Toolbox;
-  DefaultTools: DefaultTools;
   Selectbox: Selectbox;
   BlockSettings: BlockSettings;
   ConversionToolbar: ConversionToolbar;

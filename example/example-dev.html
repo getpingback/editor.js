@@ -54,7 +54,7 @@
    https://github.com/editor-js/header#installation
    -->
   <script src="./tools/header/dist/bundle.js" onload="document.getElementById('hint').hidden = true"></script><!-- Header -->
-  <script src="./tools/simple-image/dist/bundle.js"></script><!-- Image -->
+  <script src="./tools/image/dist/bundle.js"></script><!-- Image -->
   <script src="./tools/delimiter/dist/bundle.js"></script><!-- Delimiter -->
   <script src="./tools/list/dist/bundle.js"></script><!-- List -->
   <script src="./tools/checklist/dist/bundle.js"></script><!-- Checklist -->
@@ -108,7 +108,33 @@
         /**
          * Or pass class directly without any configuration
          */
-        image: SimpleImage,
+        image: {
+          class: ImageTool,
+          inlineToolbar: true,
+          shortcut: 'CMD+SHIFT+I',
+          config: {
+            /**
+             * Custom uploader
+             */
+            uploader: {
+              /**
+               * Upload file to the server and return an uploaded image data
+               * @param {File} file - file selected from the device or pasted by drag-n-drop
+               * @return {Promise.<{success, file: {url}}>}
+               */
+              uploadByFile(file){
+                // your own uploading logic here
+                  return {
+                    success: 1,
+                    file: {
+                      url: 'https://codex.so/public/app/img/external/codex2x.png',
+                      // any other image data you want to store, such as width, height, color, extension, etc
+                    }
+                  };
+              }
+            }
+          }
+        },
 
         list: {
           class: List,
@@ -131,43 +157,23 @@
           shortcut: 'CMD+SHIFT+O'
         },
 
-        warning: Warning,
-
         marker: {
           class:  Marker,
           shortcut: 'CMD+SHIFT+M'
         },
 
-        code: {
-          class:  CodeTool,
-          shortcut: 'CMD+SHIFT+C'
-        },
-
         delimiter: Delimiter,
-
-        inlineCode: {
-          class: InlineCode,
-          shortcut: 'CMD+SHIFT+C'
-        },
 
         linkTool: LinkTool,
 
-        raw: RawTool,
-
         embed: Embed,
-
-        table: {
-          class: Table,
-          inlineToolbar: true,
-          shortcut: 'CMD+ALT+T'
-        },
 
       },
 
       /**
        * This Tool will be used as default
        */
-      // defaultBlock: 'paragraph',
+      defaultBlock: 'paragraph',
 
       /**
        * Initial Editor data
@@ -271,11 +277,21 @@
           },
         ]
       },
+      autofocus: true,
       onReady: function(){
         saveButton.click();
       },
-      onChange: function() {
-        console.log('something changed');
+      onChange: function(changes) {
+        let editorImages = [];
+        for (let i = 0; i < changes.blocks.getBlocksCount(); i++) {
+          if (changes.blocks.getBlockByIndex(i).name === 'image') {
+            const imageUrl = changes.blocks.getBlockByIndex(i).holder.children[0].children[0].children[0].children[1]?.src;
+            if (imageUrl) {
+              editorImages.push({ url: imageUrl })
+            }
+          }
+        }
+        console.log(editorImages);
       },
     });
 

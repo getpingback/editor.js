@@ -71,6 +71,7 @@ export default class BlockEvents extends Module {
     if (_.isPrintableKey(event.keyCode)) {
       this.Editor.Toolbar.close();
       this.Editor.ConversionToolbar.close();
+      this.Editor.Selectbox.close();
 
       /**
        * Allow to use shortcuts with selected blocks

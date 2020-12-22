@@ -504,8 +504,10 @@ export default class BlockManager extends Module {
    */
   public getBlock(element: HTMLElement): Block {
     if (!$.isElement(element) as boolean) {
-      element = element.parentNode as HTMLElement;
+      element = element ? element.parentNode as HTMLElement : null;
     }
+
+    if (!element) return undefined;
 
     const nodes = this._blocks.nodes,
         firstLevelBlock = element.closest(`.${Block.CSS.wrapper}`),

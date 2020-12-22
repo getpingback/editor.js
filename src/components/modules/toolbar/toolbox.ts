@@ -85,7 +85,6 @@ export default class Toolbox extends Module {
     $.append(this.Editor.UI.nodes.wrapper, this.nodes.toolbox);
 
     this.addTools();
-    this.addDefaultTools();
     this.enableFlipper();
   }
 
@@ -136,13 +135,6 @@ export default class Toolbox extends Module {
     } else {
       this.close();
     }
-  }
-
-  /**
-   * Add default tools to the Toolbox
-   */
-  private addDefaultTools(): void {
-    this.Editor.DefaultTools.renderAll;
   }
 
   /**
@@ -309,6 +301,8 @@ export default class Toolbox extends Module {
   private insertNewBlock(tool: BlockToolConstructable, toolName: string): void {
     const { BlockManager, Caret } = this.Editor;
     const { currentBlock } = BlockManager;
+
+    if (!currentBlock) return;
 
     const newBlock = BlockManager.insert({
       tool: toolName,

@@ -1,5 +1,7 @@
-import $ from '../dom';
 import { InlineTool, SanitizerConfig } from '../../../types';
+import { library, icon } from '@fortawesome/fontawesome-svg-core';
+import { faBold } from '@fortawesome/pro-light-svg-icons';
+library.add(faBold);
 
 /**
  * Bold Tool
@@ -61,7 +63,11 @@ export default class BoldInlineTool implements InlineTool {
     this.nodes.button = document.createElement('button') as HTMLButtonElement;
     this.nodes.button.type = 'button';
     this.nodes.button.classList.add(this.CSS.button, this.CSS.buttonModifier);
-    this.nodes.button.appendChild($.svg('bold', 12, 14));
+
+    const elementIcon = document.createElement('svg');
+    elementIcon.innerHTML = icon({ prefix: 'fal', iconName: 'bold' }, { transform: { size: 23 } }).html[0];
+
+    this.nodes.button.appendChild(elementIcon);
 
     return this.nodes.button;
   }

@@ -6,6 +6,10 @@ import { InlineTool, InlineToolConstructable, ToolConstructable, ToolSettings } 
 import Flipper from '../../flipper';
 import I18n from '../../i18n';
 import { I18nInternalNS } from '../../i18n/namespace-internal';
+import { library, icon } from '@fortawesome/fontawesome-svg-core';
+import { faPlus, faAngleDown } from '@fortawesome/pro-light-svg-icons';
+library.add(faPlus);
+library.add(faAngleDown);
 
 /**
  * Inline toolbar with actions that modifies selected text fragment
@@ -33,6 +37,8 @@ export default class InlineToolbar extends Module {
     conversionToggler: 'ce-inline-toolbar__dropdown',
     conversionTogglerHidden: 'ce-inline-toolbar__dropdown--hidden',
     conversionTogglerContent: 'ce-inline-toolbar__dropdown-content',
+    conversionTogglerDivider: 'ce-inline-toolbar__divider',
+    conversionTogglerDividerHidden: 'ce-inline-toolbar__divider--hidden',
   };
 
   /**
@@ -40,27 +46,31 @@ export default class InlineToolbar extends Module {
    *
    * @type {boolean}
    */
-  public opened = false;
+  public opened = true;
 
   /**
    * Inline Toolbar elements
    */
-  private nodes: {
+  public nodes: {
     wrapper: HTMLElement;
     buttons: HTMLElement;
     conversionToggler: HTMLElement;
     conversionTogglerContent: HTMLElement;
+    conversionTogglerDivider: HTMLElement;
     actions: HTMLElement;
+    plusButton: HTMLButtonElement;
   } = {
     wrapper: null,
     buttons: null,
     conversionToggler: null,
     conversionTogglerContent: null,
+    conversionTogglerDivider: null,
     /**
      * Zone below the buttons where Tools can create additional actions by 'renderActions()' method
      * For example, input for the 'link' tool or textarea for the 'comment' tool
      */
     actions: null,
+    plusButton: null,
   };
 
   /**
@@ -151,6 +161,16 @@ export default class InlineToolbar extends Module {
     this.addTools();
 
     /**
+     * Add divider for elements
+     */
+    this.addDivider();
+
+    /**
+     * Append Plus Button to open SelectBox
+     */
+    this.addPlusButton();
+
+    /**
      * Prepare conversion toolbar.
      * If it has any conversion tool then it will be enabled in the Inline Toolbar
      */
@@ -179,21 +199,41 @@ export default class InlineToolbar extends Module {
    * @param {boolean} [needToClose] - pass true to close toolbar if it is not allowed.
    *                                  Avoid to use it just for closing IT, better call .close() clearly.
    */
-  public tryToShow(needToClose = false): void {
-    if (!this.allowedToShow()) {
-      if (needToClose) {
-        this.close();
-      }
-
-      return;
-    }
-
-    this.move();
+  public tryToShow(): void {
     this.open();
-    this.Editor.Toolbar.close();
 
     /** Check Tools state for selected fragment */
     this.checkToolsState();
+  }
+
+  /**
+   * Add PlusButton inside Inline Toolbar
+   */
+  public addPlusButton(): void {
+    this.nodes.plusButton = document.createElement('button') as HTMLButtonElement;
+    this.nodes.plusButton.type = 'button';
+    this.nodes.plusButton.classList.add('ce-inline-tool', 'ce-inline-tool--plus');
+    this.nodes.plusButton.dataset.tool = 'plusButton';
+
+    const elementIcon = document.createElement('svg');
+    elementIcon.innerHTML = icon({ prefix: 'fal', iconName: 'plus' }, { transform: { size: 23 } }).html[0];
+
+    this.nodes.plusButton.appendChild(elementIcon);
+
+    this.Editor.Listeners.on(this.nodes.plusButton, 'click', () => {
+      this.Editor.Selectbox.toggle();
+    }, false);
+
+    this.nodes.buttons.appendChild(this.nodes.plusButton);
+  }
+
+  /**
+   * Add a small divider for elements
+   */
+  public addDivider(): void { 
+    const divider = document.createElement('div') as HTMLDivElement;
+    divider.classList.add('ce-inline-toolbar__divider');
+    this.nodes.buttons.appendChild(divider);
   }
 
   /**
@@ -257,6 +297,7 @@ export default class InlineToolbar extends Module {
 
     this.flipper.deactivate();
     this.Editor.ConversionToolbar.close();
+    this.Editor.Selectbox.close();
   }
 
   /**
@@ -269,11 +310,6 @@ export default class InlineToolbar extends Module {
     this.filterTools();
 
     /**
-     * Show Inline Toolbar
-     */
-    this.nodes.wrapper.classList.add(this.CSS.inlineToolbarShowed);
-
-    /**
      * Call 'clear' method for Inline Tools (for example, 'link' want to clear input)
      */
     this.tools.forEach((toolInstance: InlineTool) => {
@@ -284,7 +320,6 @@ export default class InlineToolbar extends Module {
 
     this.buttonsList = this.nodes.buttons.querySelectorAll(`.${this.CSS.inlineToolButton}`);
     this.opened = true;
-
     if (this.Editor.ConversionToolbar.hasTools()) {
       /**
        * Change Conversion Dropdown content for current tool
@@ -294,7 +329,7 @@ export default class InlineToolbar extends Module {
       /**
        * hide Conversion Dropdown with there are no tools
        */
-      this.nodes.conversionToggler.hidden = true;
+      // this.nodes.conversionToggler.hidden = true;
     }
 
     /**
@@ -303,7 +338,7 @@ export default class InlineToolbar extends Module {
     let visibleTools = Array.from(this.buttonsList);
 
     visibleTools.unshift(this.nodes.conversionToggler);
-    visibleTools = visibleTools.filter((tool) => !(tool as HTMLElement).hidden);
+    //visibleTools = visibleTools.filter((tool) => !(tool as HTMLElement).hidden);
 
     this.flipper.activate(visibleTools as HTMLElement[]);
   }
@@ -373,7 +408,7 @@ export default class InlineToolbar extends Module {
     const currentSelection = SelectionUtils.get(),
         currentBlock = this.Editor.BlockManager.getBlock(currentSelection.anchorNode as HTMLElement);
 
-    const toolSettings = this.Editor.Tools.getToolSettings(currentBlock.name),
+    const toolSettings = currentBlock ? this.Editor.Tools.getToolSettings(currentBlock.name) : null,
         inlineToolbarSettings = toolSettings && toolSettings[this.Editor.Tools.USER_SETTINGS.ENABLED_INLINE_TOOLS];
 
     /**
@@ -395,6 +430,7 @@ export default class InlineToolbar extends Module {
      * Filter buttons if Block Tool pass config like inlineToolbar=['link']
      */
     if (Array.isArray(inlineToolbarSettings)) {
+      inlineToolbarSettings.push('plusButton');
       buttons.forEach((button) => {
         button.hidden = !inlineToolbarSettings.includes(button.dataset.tool);
       });
@@ -430,13 +466,18 @@ export default class InlineToolbar extends Module {
   private addConversionToggler(): void {
     this.nodes.conversionToggler = $.make('div', this.CSS.conversionToggler);
     this.nodes.conversionTogglerContent = $.make('div', this.CSS.conversionTogglerContent);
+    this.nodes.conversionTogglerDivider = $.make('div', this.CSS.conversionTogglerDivider);
 
-    const icon = $.svg('toggler-down', 13, 13);
+    const elementIcon = document.createElement('svg');
+    elementIcon.classList.add('icon--toggler-down');
+    elementIcon.innerHTML = icon({ prefix: 'fal', iconName: 'angle-down' }, { transform: { size: 15 } }).html[0];
 
     this.nodes.conversionToggler.appendChild(this.nodes.conversionTogglerContent);
-    this.nodes.conversionToggler.appendChild(icon);
+    this.nodes.conversionToggler.appendChild(elementIcon);
 
     this.nodes.buttons.appendChild(this.nodes.conversionToggler);
+
+    this.nodes.buttons.appendChild(this.nodes.conversionTogglerDivider);
 
     this.Editor.Listeners.on(this.nodes.conversionToggler, 'click', () => {
       this.Editor.ConversionToolbar.toggle((conversionToolbarOpened) => {
@@ -468,6 +509,8 @@ export default class InlineToolbar extends Module {
    */
   private setConversionTogglerContent(): void {
     const { BlockManager, Tools } = this.Editor;
+    
+    if (!BlockManager.currentBlock) return;
     const toolName = BlockManager.currentBlock.name;
 
     /**
@@ -478,6 +521,7 @@ export default class InlineToolbar extends Module {
 
     this.nodes.conversionToggler.hidden = !exportRuleDefined;
     this.nodes.conversionToggler.classList.toggle(this.CSS.conversionTogglerHidden, !exportRuleDefined);
+    this.nodes.conversionTogglerDivider.classList.toggle(this.CSS.conversionTogglerDividerHidden, !exportRuleDefined);
 
     /**
      * Get icon or title for dropdown
@@ -486,12 +530,16 @@ export default class InlineToolbar extends Module {
     const toolboxSettings = Tools.available[toolName][Tools.INTERNAL_SETTINGS.TOOLBOX] || {};
     const userToolboxSettings = toolSettings.toolbox || {};
 
+    const toolTitle = I18n.t(
+      I18nInternalNS.toolNames,
+      Tools.toolsClasses[toolName][Tools.INTERNAL_SETTINGS.TITLE] || _.capitalize(toolName)
+    );
+
     this.nodes.conversionTogglerContent.innerHTML =
       userToolboxSettings.icon ||
-      toolboxSettings.icon ||
+      _.capitalize(toolTitle) ||
       userToolboxSettings.title ||
-      toolboxSettings.title ||
-      _.capitalize(toolName);
+      toolboxSettings.title;
   }
 
   /**

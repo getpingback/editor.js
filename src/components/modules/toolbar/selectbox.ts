@@ -26,6 +26,8 @@ export default class Selectbox extends Module {
   public get CSS(): {[name: string]: string} {
     return {
       selectbox: 'ce-selectbox',
+      selectBoxActive: 'ce-inline-tool--active',
+      selectboxList: 'ce-selectbox__list',
       selectboxButton: 'ce-selectbox__button',
       selectboxButtonActive: 'ce-selectbox__button--active',
       selectboxOpened: 'ce-selectbox--opened',
@@ -57,9 +59,11 @@ export default class Selectbox extends Module {
    */
   public nodes: {
     selectbox: HTMLElement;
+    selectboxList: HTMLElement;
     buttons: HTMLElement[];
   } = {
     selectbox: null,
+    selectboxList: null,
     buttons: [],
   };
 
@@ -82,7 +86,10 @@ export default class Selectbox extends Module {
    */
   public make(): void {
     this.nodes.selectbox = $.make('div', this.CSS.selectbox);
-    $.append(this.Editor.Toolbox.nodes.toolbox, this.nodes.selectbox);
+    $.append(this.Editor.InlineToolbar.nodes.wrapper, this.nodes.selectbox);
+
+    this.nodes.selectboxList = $.make('ul', this.CSS.selectboxList);
+    $.append(this.nodes.selectbox, this.nodes.selectboxList);
 
     this.addTools();
     this.enableFlipper();
@@ -110,6 +117,7 @@ export default class Selectbox extends Module {
 
     this.Editor.UI.nodes.wrapper.classList.add(this.CSS.openedToolbarHolderModifier);
     this.nodes.selectbox.classList.add(this.CSS.selectboxOpened);
+    this.Editor.InlineToolbar.nodes.plusButton.classList.add(this.CSS.selectBoxActive);
 
     this.opened = true;
     this.flipper.activate();
@@ -121,6 +129,7 @@ export default class Selectbox extends Module {
   public close(): void {
     this.nodes.selectbox.classList.remove(this.CSS.selectboxOpened);
     this.Editor.UI.nodes.wrapper.classList.remove(this.CSS.openedToolbarHolderModifier);
+    this.Editor.InlineToolbar.nodes.plusButton.classList.remove(this.CSS.selectBoxActive);
 
     this.opened = false;
     this.flipper.deactivate();
@@ -135,6 +144,13 @@ export default class Selectbox extends Module {
     } else {
       this.close();
     }
+  }
+
+  /**
+   * Check status
+   */
+  public isOpen(): Boolean {
+    return this.opened;
   }
 
   /**
@@ -193,13 +209,20 @@ export default class Selectbox extends Module {
     }
 
     const button = $.make('li', [ this.CSS.selectboxButton ]);
+    const svg = $.make('div', null);
+    svg.innerHTML = (userSelectboxSettings && userSelectboxSettings.icon) || toolSelectboxSettings.icon;
+    
+    
+    const title = $.make('span', null);
+    title.innerHTML = I18n.t(I18nInternalNS.toolNames, (userSelectboxSettings && userSelectboxSettings.title) || toolSelectboxSettings.title || toolName);
 
     button.dataset.tool = toolName;
-    button.innerHTML = (userSelectboxSettings && userSelectboxSettings.icon) || toolSelectboxSettings.icon + toolSelectboxSettings.title;
+    button.appendChild(svg);
+    button.appendChild(title);
 
-    $.append(this.nodes.selectbox, button);
+    $.append(this.nodes.selectboxList, button);
 
-    this.nodes.selectbox.appendChild(button);
+    this.nodes.selectboxList.appendChild(button);
     this.nodes.buttons.push(button);
 
     /**
@@ -207,6 +230,7 @@ export default class Selectbox extends Module {
      */
     this.Editor.Listeners.on(button, 'click', (event: KeyboardEvent|MouseEvent) => {
       this.toolButtonActivate(event, toolName);
+      this.close();
     });
 
     /**
@@ -302,6 +326,8 @@ export default class Selectbox extends Module {
     const { BlockManager, Caret } = this.Editor;
     const { currentBlock } = BlockManager;
 
+    if (!currentBlock) return;
+
     const newBlock = BlockManager.insert({
       tool: toolName,
       replace: currentBlock.isEmpty,
@@ -323,10 +349,5 @@ export default class Selectbox extends Module {
         Caret.setToBlock(BlockManager.nextBlock);
       }
     }
-
-    /**
-     * close toolbar when node is changed
-     */
-    this.Editor.Toolbar.close();
   }
 }
