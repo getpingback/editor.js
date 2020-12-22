@@ -127,17 +127,11 @@ export default class Toolbar extends Module {
     //$.append(this.nodes.content, this.nodes.plusButton);
 
     /**
-     * Already starts opened on click
+     * Make toolbox to Editor work properly
      */
     this.Editor.Toolbox.make();
     this.Editor.Toolbox.open();
 
-    /**
-     * Selectbox is a selectable dropdown menu that's opened when user clicks on Plus button inside toolbar
-     */
-    this.Editor.Selectbox.make();
-    this.Editor.Listeners.on(this.nodes.plusButton, 'click', () => this.plusButtonClicked(), false);
-    
     /**
      * Add events to show/hide tooltip for plus button
      */
@@ -200,6 +194,8 @@ export default class Toolbar extends Module {
       // this.Editor.Toolbox.close();
       this.Editor.BlockSettings.close();
     }
+
+    if (!this.Editor.BlockManager.currentBlock) return;
 
     const currentBlock = this.Editor.BlockManager.currentBlock.holder;
 
@@ -302,14 +298,6 @@ export default class Toolbar extends Module {
       },
     };
   }
-
-  /**
-   * Handler for Plus Button
-   */
-  private plusButtonClicked(): void {
-    this.Editor.Selectbox.toggle();
-  }
-
 
   /**
    * Bind events on the Toolbar Elements:

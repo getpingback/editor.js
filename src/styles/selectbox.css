@@ -9,19 +9,11 @@
   border-radius: 8px;
   background-color: #FFFFFF;
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.06), 0 15px 45px -2px rgba(0,0,0,0.05);
-  padding: 15px;
-  max-height: 250px;
+  padding: 10px 0;
+  min-width: 180px;
   overflow-y: auto;
   right: 0;
-  max-height: 250px;
   overflow-y: auto;
-
-  @media (--mobile){
-    position: static;
-    transform: none !important;
-    align-items: center;
-    overflow-x: auto;
-  }
 
   &--opened {
     opacity: 1;
@@ -31,6 +23,22 @@
   &__button {
     @apply --selectbox-item;
     flex-shrink: 0;
+
+    & > div {
+      display: flex;
+      width: 20px;
+    }
+
+    span {
+      margin-left: 10px;
+    }
+  }
+
+  &__list {
+    list-style-type: none;
+    list-style-position: outside;
+    padding: 0;
+    margin: 0;
   }
 }
 
@@ -39,7 +47,6 @@
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.15), 0 15px 45px -2px rgba(0,0,0,0.16);
   border-radius: 8px;
   color: #707684;
-  text-align: center;
 }
 
 .ce-selectbox-button-tooltip {

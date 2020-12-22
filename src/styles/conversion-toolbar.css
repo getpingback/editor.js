@@ -6,7 +6,8 @@
   will-change: transform, opacity;
   transition: transform 100ms ease, opacity 100ms ease;
   transform: translateY(-8px);
-  left: -1px;
+  bottom: 74px;
+  left: 0;
   width: 150px;
   margin-top: 5px;
   box-sizing: content-box;

@@ -101,8 +101,7 @@
   }
 
   svg {
-    fill: currentColor;
-    vertical-align: middle;
+    fill: var(--primary-color);
     max-height: 100%;
   }
 }
