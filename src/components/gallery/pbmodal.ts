@@ -1,4 +1,4 @@
-import GaleryService from './gallery_service';
+import Service from './service';
 import Modal from 'modal-vanilla';
 
 export default class PBModal {

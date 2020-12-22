@@ -1,24 +1,22 @@
+import { faSearch } from '@fortawesome/pro-light-svg-icons';
 import axios from 'axios';
 
 export default class Api {
 
     key: string;
-    api: string;
-    searchResult: any;
+    base_url: string;
 
-    constructor() {
-        this.key = " eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJBbnNlbG1vIiwiZW1haWwiOiJhbnNlbG1vamFjeW50aG9AZ21haWwuY29tIiwicm9sZSI6InB1Ymxpc2hlciIsImlzQWRtaW4iOnRydWUsImlhdCI6MTYwNjkxNzc0OSwiZXhwIjoxNjA5NTA5NzQ5fQ.UkSOl3rHHnMHCTfihir5dK660lMwe98kEx6ru6xOvzs";
-        this.api = 'http://lvh.me:5000/utils/';
+    constructor(key) {
+        this.key = key;
+        this.base_url = 'http://lvh.me:5000/utils/';
     }
-
-    public take(endpoint: string, key: string): any {
+    
+    public take(endpoint: string): any {
         
-        const request = axios.get(this.api + endpoint).then( (response) => {
-            this.searchResult = response.data;
-            console.log('THEN', response); 
-        });
-
-        console.log('RESPOSE->', request);
-        return this.searchResult;
+        return new Promise( async (resolve, reject) => {            
+            await axios.get( this.base_url + endpoint).then( (response) => {
+                resolve(response.data);
+            });
+        })
     }
 }

@@ -17,7 +17,7 @@ import Selection from '../selection';
 import Block from '../block';
 import Flipper from '../flipper';
 
-import GalleryModal from '../gallery/gallery_modal';
+import Gallery from '../gallery/gallery';
 
 /**
  * @class
@@ -186,7 +186,7 @@ export default class UI extends Module {
 
   public galleryButton(): void {
 
-    let gallery = new GalleryModal();
+    let gallery = new Gallery();
 
     console.log('jdkasd');
     console.log(localStorage.getItem('token')); 
@@ -199,7 +199,7 @@ export default class UI extends Module {
     // button.onclick = func
     this.nodes.wrapper.appendChild(button);
 
-    button.addEventListener("click", gallery.open(), false);    
+    button.addEventListener("click", gallery.init(), true);    
 
   }
   /**

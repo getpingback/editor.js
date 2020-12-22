@@ -19,17 +19,6 @@ export default class Ui {
         return container;
     }
 
-    updateResult(items): any {
-        const container = document.createElement("div");
-        const search = document.getElementsByClassName("search-container__result")[0];
-
-        search.remove();
-
-        container.appendChild(this.setSearchResult(items));
-
-        return container;
-    }
-
     sidebar(): any {
         
         const sidebar = document.createElement("div");   
@@ -73,23 +62,6 @@ export default class Ui {
         return sidebar_menu;
     }
 
-    sidebar_upload(): any {
-        const upload_area = document.createElement("div");
-        const upload_button = document.createElement("input");
-        upload_button.setAttribute('type', 'file');
-        upload_area.classList.add("sidebar__upload_button");
-        upload_area.appendChild(upload_button);
-
-        return upload_area;
-    }
-
-    setSearchResult(items): any {
-        const search = this.search();
-        search.appendChild(this.resultList(items));
-
-        return search;
-    }
-
     search(): any {
         const search = document.createElement("div");
 
@@ -119,7 +91,7 @@ export default class Ui {
 
         const result_list = document.createElement('ul');
 
-        items.rows.forEach(function(item){
+        items.forEach(function(item){
             const result_item = document.createElement("li");
             const result_image = document.createElement("img");
 
@@ -132,6 +104,49 @@ export default class Ui {
         search_result.appendChild(result_list);
 
         return search_result;
+    }
+
+    updateResult(items): any {
+        const container = document.createElement("div");
+        const search = document.getElementsByClassName("search-container__result")[0];
+   
+        search.remove();
+
+        container.appendChild(this.setSearchResult(items));
+        
+        return container;
+    }
+
+    sidebar_upload(): any {
+        const upload_area = document.createElement("div");
+        const upload_button = document.createElement("input");
+        upload_button.setAttribute('type', 'file');
+        upload_area.classList.add("sidebar__upload_button");
+        upload_area.appendChild(upload_button);
+
+        return upload_area;
+    }
+
+    setSearchResult(items): any {
+        const search = this.search();
+        console.log('set ******', items);
+        search.appendChild(this.resultList(items));
+
+        return search;
+    }
+
+    
+
+    getAllFuncs(toCheck) {
+        var props = [];
+        var obj = toCheck;
+        do {
+            props = props.concat(Object.getOwnPropertyNames(obj));
+        } while (obj = Object.getPrototypeOf(obj));
+    
+        return props.sort().filter(function(e, i, arr) { 
+           if (e!=arr[i+1] && typeof toCheck[e] == 'function') return true;
+        });
     }
 
     setEngine(): any {
