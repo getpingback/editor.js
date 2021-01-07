@@ -51,13 +51,3 @@
     margin-top: 3px;
   }
 }
-
-/**
- * Styles for Narrow mode
- */
-.codex-editor--narrow .ce-toolbox {
-  @media (--not-mobile) {
-    background: #fff;
-    z-index: 2;
-  }
-}
