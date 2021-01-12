@@ -316,7 +316,7 @@ export default class Toolbox extends Module {
 
     this.Editor.Caret.setToBlock(newBlock);
 
-    /** If new block doesn't contain inpus, insert new paragraph above */
+    /** If new block doesn't contain inputs, insert new paragraph above */
     if (newBlock.inputs.length === 0) {
       if (newBlock === BlockManager.lastBlock) {
         BlockManager.insertAtEnd();

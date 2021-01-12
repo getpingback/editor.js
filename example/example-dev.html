@@ -282,6 +282,7 @@
         saveButton.click();
       },
       onChange: function(changes) {
+        console.log('Changes', changes);
         let editorImages = [];
         for (let i = 0; i < changes.blocks.getBlocksCount(); i++) {
           if (changes.blocks.getBlockByIndex(i).name === 'image') {

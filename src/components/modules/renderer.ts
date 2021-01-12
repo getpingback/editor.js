@@ -51,6 +51,13 @@ export default class Renderer extends Module {
 
     this.Editor.UI.checkEmptiness();
 
+    /**
+     * Trigger "onChange" to affect outside changes onInit
+     */
+    if (blocks.length > 0) {
+      this.config.onChange(this.Editor.API.methods);
+    }
+
     return sequence;
   }
 
